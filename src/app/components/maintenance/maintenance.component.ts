@@ -8,9 +8,15 @@ import { DataListComponent } from '../data-list/data-list.component';
 })
 export class MaintenanceComponent implements OnInit,OnChanges {
 
+  /**
+   * @variable {data} - De tipo input recibe la informacion del componente data-list referente a la respuesta de la peticion
+   * @variable {item} - De tipo Input recibe la informacion del cmponente data-lista referente a el item que sera modificado
+   * @evenEmitter {getNewData} - De tipo Output envia la informacion modificada al componete data-lsit para actualizar la tabla.
+   * @variable {modify} variable boolena de control para vizualizar iconos de guardar/agregar
+   * @variable {_about, accessURL, title} variables que alimentan el formulario mediante NgModel
+   */
   @Input() data: items[];
   @Input() item: any;
-
   @Output() getNewData = new EventEmitter();
 
   modify:boolean = false;
@@ -20,11 +26,13 @@ export class MaintenanceComponent implements OnInit,OnChanges {
   
   constructor() {}
 
-  ngOnInit() {
+  ngOnInit() {}
 
-    }
-
-  ngOnChanges(cambios ){
+  /**
+  * @description Escucha los cambios delde el componente data-list
+  *              y asi ejecutar cambios en el presente componente.
+  */
+  ngOnChanges(cambios){
     if(this.item){
       this.modify = true;
       this._about = this.item._about;
@@ -33,7 +41,10 @@ export class MaintenanceComponent implements OnInit,OnChanges {
     }
   }
 
-  addData(event){
+  /**
+  * @description agregar nuevos registros al objeto JSON data
+  */
+  addData(){
     let itemtemp = {
       _about: this._about,
       accessURL: this.accessURL,
@@ -45,15 +56,9 @@ export class MaintenanceComponent implements OnInit,OnChanges {
       this.cleanData();
   }
 
-
-  cleanData(){
-      this._about = '';
-      this.accessURL = '';
-      this.title = '';
-  }
-
- 
-
+  /**
+  * @description Guardar modificaciones en la informacion de los registros del objeto JSON
+  */
   saveData(){
     this.data.forEach(data => {
       if(data.accessURL == this.accessURL){
@@ -65,4 +70,14 @@ export class MaintenanceComponent implements OnInit,OnChanges {
     this.modify = false;
     this.cleanData()
   }
+
+  /**
+  * @description Limpieza del formulario
+  */
+ cleanData(){
+  this._about = '';
+  this.accessURL = '';
+  this.title = '';
 }
+}
+ 

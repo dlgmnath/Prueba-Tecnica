@@ -9,16 +9,18 @@ import { DataService, items } from '../../services/data.service'
 
 export class DataListComponent implements OnInit {
  
-
+  /**
+   * @variable {data} - Recibe la informacion del servicio.
+   * @variable {item} - Recibe la informacion del item seleccionado de la tabla
+   * @variable {_about, accessURL, title} variables que alimentan el formulario mediante NgModel para cargar la informacion 
+   *           en el componente maintenance.
+   */
   data : items[];
   item : any;
-  newItem: items[];
 
   _about: string;
   accessURL: string;
   title: string;  
-
-  modify:boolean = false;
 
   constructor(private dataService: DataService ) {}
 
@@ -29,8 +31,12 @@ export class DataListComponent implements OnInit {
     }) 
   }
 
+  /**
+  * @description Busca la informacion del item seleccionado mediante la url y lo almacena en la variable Item 
+  *              que sera emitida al componente Maintenance.
+  * @paramtero {url} - de Tipo String hace referencia la Url como identificador del item
+  */
   loadData(url:string){
-    this.modify = true;
     this.data.forEach(data => {
      if(data.accessURL == url){
       this._about = data._about;
@@ -45,6 +51,10 @@ export class DataListComponent implements OnInit {
    }); 
   }
 
+  /**
+  * @description Busca la informacion del item seleccionado mediante la url y lo elimina del JSON
+  * @paramtero {url} - de Tipo String hace referencia la Url como identificador del item
+  */
   deleteData(url:string){
     for(let i = 0; i < this.data.length; i++){
       if(this.data[i].accessURL == url){
@@ -53,8 +63,11 @@ export class DataListComponent implements OnInit {
     }
   }
 
+  /**
+  * @description Escucha el eventEmitter del componente maintenance para recibir las modificaciones/inserciones en el objeto JSON 
+  * @paramtero {event} - Cambios que se han generado en el objeto JSON data.
+  */
   newData(event){
-    console.log(event);
     // refresh
     this.data = [...event];
   }
